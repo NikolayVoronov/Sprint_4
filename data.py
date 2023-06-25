@@ -1,7 +1,7 @@
 class Urls:
-    MAIN = ("https://qa-scooter.praktikum-services.ru/") #главная яндекс самокат
-    WHO_ORDER_URL = ("https://qa-scooter.praktikum-services.ru/order") #для кого самокат
-    YANDEX = ("https://dzen.ru/?yredirect=true") #главная страница Яндекса
+    MAIN = ("https://qa-scooter.praktikum-services.ru/")  # главная яндекс самокат
+    WHO_ORDER_URL = ("https://qa-scooter.praktikum-services.ru/order") # для кого самокат
+    YANDEX = ("https://dzen.ru/?yredirect=true")  # главная страница Яндекса
 
 class Texts:
     TEXT_COST = 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.'
@@ -19,3 +19,20 @@ class Texts:
     TEXT_CANCEL_ORDER = 'Да, пока самокат не привезли. ' \
                         'Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.'
     TEXT_MKAD = 'Да, обязательно. Всем самокатов! И Москве, и Московской области.'
+
+class TestValues:
+    FIRST_NAME = "Жан Жак"
+    SURNAME = "Тестировалль"
+    ADRESS = "Вымышленный адрес"
+    METRO = "Аэропорт"
+    PHONE = "+79999999999"
+    DATE_ORDER = "28.06.2023"
+    COMMENTS = "Комментарий для курьера"
+
+    FIRST_NAME_2 = "Агент"
+    SURNAME_2 = "Смит"
+    ADRESS_2 = "г. Зеон, ул. Машинная, д.5, корп.7"
+    METRO_2 = "Автозаводская"
+    PHONE_2 = "+77776665544"
+    DATE_ORDER_2 = "01.07.2023"
+    COMMENTS_2 = "Пожалуйста, не звоните утром, вы можете разбудить Нео"

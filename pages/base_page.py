@@ -1,25 +1,24 @@
-from selenium.webdriver.common.by import By
-import allure
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class BasePage:
-    """Кнопка заказать в шапке станицы"""
-    ORDER_BUTTON_HEADER = [By.XPATH, ".//div[contains(@class,'Header_Nav__AGCXC')]/button[text()='Заказать']"]
-    """Кнопка с логотипом сервиса самокат"""
-    SCOOTER_LOGO_BUTTON = [By.XPATH, ".//a[contains(@class,'Header_LogoScooter')]"]
-    """Кнопка с логотипом яндекса"""
-    YANDEX_LOGO_BUTTON = [By.XPATH, ".//a[contains(@class,'Header_LogoYandex')]"]
 
     def __init__(self, driver):
         self.driver = driver
 
-    @allure.step('Нажать на кнопку заказать в шапке страницы')
-    def click_order_button_header(self):
-        self.driver.find_element(*self.ORDER_BUTTON_HEADER).click()
+    """ Проскролить до нужного элемента """
+    def scroll_to_element(self, locator):
+        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*locator))
 
-    @allure.step('Нажать на кнопку с логотипом сервиса самокат')
-    def click_scooter_logo_button(self):
-        self.driver.find_element(*self.SCOOTER_LOGO_BUTTON).click()
+    """ Ожидать пока элемент станет кликабельным """
+    def wait_clickable(self, locator):
+        WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable(locator))
 
-    @allure.step('Нажать на кнопку с логотипом яндекса')
-    def click_yandex_logo_button(self):
-        self.driver.find_element(*self.YANDEX_LOGO_BUTTON).click()
+    """ Кликнуть по элементу """
+    def click_element(self, locator):
+        self.driver.find_element(*locator).click()
+
+    """ Добавить значение в поле """
+    def add_value(self, locator, value):
+        self.driver.find_element(*locator).send_keys(value)

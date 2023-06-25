@@ -1,8 +1,10 @@
-from selenium.webdriver.common.by import By
 import allure
-import time
+from selenium.webdriver.common.by import By
 
-class MainPage:
+from pages.base_page import BasePage
+
+
+class MainPage(BasePage):
     """ Выпадающие списки в разделе 'Вопросы о важном' """
     """ Кнопка и текст со стоимостью самокатов """
     DROP_DOWN_COST = [By.XPATH, ".//div[contains(@id,'accordion__heading-0')]/parent::div"]
@@ -29,66 +31,39 @@ class MainPage:
     DROP_DOWN_MKAD = [By.XPATH, ".//div[contains(@id,'accordion__heading-7')]/parent::div"]
     DROP_DOWN_MKAD_TEXT = [By.XPATH, ".//div[contains(@id,'accordion__panel-7')]/p"]
 
-    """Кнопка заказать в теле станицы"""
+    """Кнопка заказать в теле и шапке страницы"""
+    ORDER_BUTTON_HEADER = [By.XPATH, ".//div[contains(@class,'Header_Nav__AGCXC')]/button[text()='Заказать']"]
     ORDER_BUTTON_BODY = [By.XPATH, ".//div[contains(@class,'Home_FinishButton__1_cWm')]/button"]
 
     """ Поле с информацией о сервисе """
     INFO_SCOOTER_FIELD = [By.XPATH, ".//div[text()='Привезём его прямо к вашей двери,']"]
 
-    def __init__(self, driver):
-        self.driver = driver
+    """Кнопка с логотипом сервиса самокат"""
+    SCOOTER_LOGO_BUTTON = [By.XPATH, ".//a[contains(@class,'Header_LogoScooter')]"]
 
-    """ set_drop_down_* - методы активируют выпадающие списки с ответами на вопросы """
+    """Кнопка с логотипом яндекса"""
+    YANDEX_LOGO_BUTTON = [By.XPATH, ".//a[contains(@class,'Header_LogoYandex')]"]
 
-    @allure.step('Открыть список со стоимостью оплаты и проверить текст')
-    def set_drop_down_cost(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_COST))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_COST).click()
-
-    @allure.step('Открыть список с количеством самокатов и проверить текст')
-    def set_drop_down_several_scooters(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_SEVERAL_SCOOTERS))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_SEVERAL_SCOOTERS).click()
-
-    @allure.step('Открыть список с временем аренды оплаты и проверить текст')
-    def set_drop_down_time_cost(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_TIME_COST))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_TIME_COST).click()
-
-    @allure.step('Открыть список с возможность оформления заказа сегодня и проверить текст')
-    def set_drop_down_order_today(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_ORDER_TODAY))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_ORDER_TODAY).click()
-
-    @allure.step('Открыть список с возможностью продления или возврата раньше и проверить текст')
-    def set_drop_down_change_order(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_CHANGE_ORDER))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_CHANGE_ORDER).click()
-
-    @allure.step('Открыть список с зарядкой и проверить текст')
-    def set_drop_down_charger(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_CHARGER))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_CHARGER).click()
-
-    @allure.step('Открыть список с возможностью отмены заказа и проверить текст')
-    def set_drop_down_cancel_order(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_CANCEL_ORDER))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_CANCEL_ORDER).click()
-
-    @allure.step('Открыть список с доставкой за МКАД и проверить текст')
-    def set_drop_down_mkad(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.DROP_DOWN_MKAD))
-        time.sleep(1)
-        self.driver.find_element(*self.DROP_DOWN_MKAD).click()
+    @allure.step('Открыть нужный список с ответами на вопросы')
+    def set_drop_down(self, loc_button):
+        self.scroll_to_element(loc_button)
+        self.wait_clickable(loc_button)
+        self.click_element(loc_button)
 
     @allure.step('Нажать на кнопку Заказать в теле страницы')
     def click_order_button_body(self):
-        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*self.ORDER_BUTTON_BODY))
-        self.driver.find_element(*self.ORDER_BUTTON_BODY).click()
+        self.scroll_to_element(self.ORDER_BUTTON_BODY)
+        self.wait_clickable(self.ORDER_BUTTON_BODY)
+        self.click_element(self.ORDER_BUTTON_BODY)
+
+    @allure.step('Нажать на кнопку заказать в шапке страницы')
+    def click_order_button_header(self):
+        self.click_element(self.ORDER_BUTTON_HEADER)
+
+    @allure.step('Нажать на кнопку с логотипом сервиса самокат')
+    def click_scooter_logo_button(self):
+        self.click_element(self.SCOOTER_LOGO_BUTTON)
+
+    @allure.step('Нажать на кнопку с логотипом яндекса')
+    def click_yandex_logo_button(self):
+        self.click_element(self.YANDEX_LOGO_BUTTON)
