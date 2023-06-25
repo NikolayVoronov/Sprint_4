@@ -2,6 +2,7 @@ import allure
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
+from data import Urls
 
 
 class MainPage(BasePage):
@@ -67,3 +68,24 @@ class MainPage(BasePage):
     @allure.step('Нажать на кнопку с логотипом яндекса')
     def click_yandex_logo_button(self):
         self.click_element(self.YANDEX_LOGO_BUTTON)
+
+    @allure.step('Нажать на кнопку с логотипом яндекса и переключиться на открывшуюся вкладку')
+    def click_yandex_logo_button_and_switch(self):
+        self.click_yandex_logo_button()
+        self.switch_page("Дзен")
+
+    @allure.step('Открыть главную страницу сервиса')
+    def go_to_main_site(self):
+        self.go_to_site(Urls.MAIN)
+
+    @allure.step('Найти текст выпадающего списка')
+    def find_text_drop_down(self, loc_text):
+        return self.find_text(loc_text)
+
+    @allure.step('Проверить адрес текущей страницы')
+    def current_url_page(self):
+        return self.current_url()
+
+    @allure.step('Найти поле с информацией о сервисе')
+    def find_element_info_scooter(self):
+        return self.find_element(self.INFO_SCOOTER_FIELD)

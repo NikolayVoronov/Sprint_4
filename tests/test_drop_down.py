@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from data import Texts, Urls
+from data import Texts
 from pages.main_page import MainPage
 
 
@@ -27,9 +27,7 @@ class TestDropDown:
         ]
     )
     def test_drop_down_cost(self, driver, loc_button, loc_text, text):
-        driver.get(Urls.MAIN)
         main_page = MainPage(driver)
-        """ Находим и активируем нужный список с ответом """
+        main_page.go_to_main_site()
         main_page.set_drop_down(loc_button)
-        """ Проверяем текст внутри списка """
-        assert driver.find_element(*loc_text).text == text, 'Текст не найден'
+        assert main_page.find_text_drop_down(loc_text) == text, 'Текст не найден'

@@ -128,3 +128,11 @@ class OrderPage(BasePage):
     @allure.step('Нажать на кнопку посмотреть заказ в модальном окне')
     def click_check_status_button(self):
         self.click_element(self.CHECK_STATUS_BUTTON)
+
+    @allure.step('Найти текст выпадающего списка')
+    def find_text_header_info(self):
+        return self.find_text(self.HEADER_INFO)
+
+    @allure.step('Найти сообщение об успешном оформлении заказа')
+    def find_element_success_order(self):
+        return self.find_element(self.SUCCESS_ORDER_FIELD)
