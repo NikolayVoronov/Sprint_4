@@ -8,28 +8,34 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import page_object.MainPage;
+import data.Texts;
+
+import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class DropdownList {
     private final By list;
     private final By textList;
+    private final String textField;
     private static WebDriver driver;
-    public DropdownList(By list, By textList) {
+    public DropdownList(By list, By textList, String textField) {
         this.list = list;
         this.textList = textList;
+        this.textField = textField;
     }
     @Parameterized.Parameters
     public static Object[][] getTextData() {
         MainPage objMainpage = new MainPage(driver);
+        Texts objTexts = new Texts();
         return new Object[][] {
-                {objMainpage.questionsFieldCost, objMainpage.answerFieldCost},
-                {objMainpage.questionsFieldQuantity, objMainpage.answerFieldQuantity},
-                {objMainpage.questionsFieldTime, objMainpage.answerFieldTime},
-                {objMainpage.questionsFieldToday, objMainpage.answerFieldToday},
-                {objMainpage.questionsFieldProlong, objMainpage.answerFieldProlong},
-                {objMainpage.questionsFieldCharger, objMainpage.answerFieldCharger},
-                {objMainpage.questionsFieldCancel, objMainpage.answerFieldCancel},
-                {objMainpage.questionsFieldOutMoscow, objMainpage.answerFieldOutMoscow},
+                {objMainpage.questionsFieldCost, objMainpage.answerFieldCost, objTexts.textFieldCost},
+                {objMainpage.questionsFieldQuantity, objMainpage.answerFieldQuantity, objTexts.textFieldQuantity},
+                {objMainpage.questionsFieldTime, objMainpage.answerFieldTime, objTexts.textFieldTime},
+                {objMainpage.questionsFieldToday, objMainpage.answerFieldToday, objTexts.textFieldToday},
+                {objMainpage.questionsFieldProlong, objMainpage.answerFieldProlong, objTexts.textFieldProlong},
+                {objMainpage.questionsFieldCharger, objMainpage.answerFieldCharger, objTexts.textFieldCharger},
+                {objMainpage.questionsFieldCancel, objMainpage.answerFieldCancel, objTexts.textFieldCancel},
+                {objMainpage.questionsFieldOutMoscow, objMainpage.answerFieldOutMoscow, objTexts.textFieldOutMoscow},
         };
     }
 
@@ -44,7 +50,10 @@ public class DropdownList {
         MainPage objMainpage = new MainPage(driver);
         objMainpage.scrollElement(list);
         objMainpage.clickElement(list);
-        objMainpage.findElement(textList);
+        boolean elementExists = objMainpage.isElementPresent(textList);
+        String actualText = objMainpage.getText(textList);
+        assertEquals(elementExists, true);
+        assertEquals(actualText, textField);
     }
 
 

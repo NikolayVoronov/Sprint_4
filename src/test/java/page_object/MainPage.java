@@ -3,6 +3,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class MainPage {
     private WebDriver driver;
@@ -16,27 +21,41 @@ public class MainPage {
     public By questionsFieldCancel = By.id("accordion__heading-6");
     public By questionsFieldOutMoscow = By.id("accordion__heading-7");
     //Тексты ответов выпадающих списков в разделе Вопросы о важном
-    public By answerFieldCost = By.xpath(".//p[contains(text(),'400 рублей')]");
-    public By answerFieldQuantity = By.xpath(".//p[contains(text(),'покататься с друзьями')]");
-    public By answerFieldTime = By.xpath(".//p[contains(text(),'Отсчёт времени аренды')]");
-    public By answerFieldToday = By.xpath(".//p[contains(text(),'с завтрашнего дня')]");
-    public By answerFieldProlong = By.xpath(".//p[contains(text(),'если что-то срочное')]");
-    public By answerFieldCharger = By.xpath(".//p[contains(text(),'с полной зарядкой')]");
-    public By answerFieldCancel = By.xpath(".//p[contains(text(),'пока самокат не привезли')]");
-    public By answerFieldOutMoscow = By.xpath(".//p[contains(text(),'Московской области')]");
+    public By answerFieldCost = By.xpath(".//div[@id='accordion__panel-0']/p");
+    public By answerFieldQuantity = By.xpath(".//div[@id='accordion__panel-1']/p");
+    public By answerFieldTime = By.xpath(".//div[@id='accordion__panel-2']/p");
+    public By answerFieldToday = By.xpath(".//div[@id='accordion__panel-3']/p");
+    public By answerFieldProlong = By.xpath(".//div[@id='accordion__panel-4']/p");
+    public By answerFieldCharger = By.xpath(".//div[@id='accordion__panel-5']/p");
+    public By answerFieldCancel = By.xpath(".//div[@id='accordion__panel-6']/p");
+    public By answerFieldOutMoscow = By.xpath(".//div[@id='accordion__panel-7']/p");
     //Верхняя кнопка создать заказ
     public By orderButtonHeader = By.className("Button_Button__ra12g");
+    //Нижняя кнопка создать заказ
+    public By orderButtonBody = By.xpath(".//div[contains(@class,'Home_FinishButton__1_cWm')]/button");
 
     public MainPage (WebDriver driver){
         this.driver = driver;
     }
 
+    public void start(){
+        driver = new ChromeDriver();
+        driver.get("https://qa-scooter.praktikum-services.ru/");
+    }
+
     public void clickElement(By locator){
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
         driver.findElement(locator).click();
     }
 
-    public void findElement(By locator){
+    public boolean isElementPresent(By locator){
         driver.findElement(locator);
+        return true;
+    }
+
+    public String getText(By locator){
+        return driver.findElement(locator).getText();
     }
 
     public void scrollElement(By locator){
@@ -44,7 +63,4 @@ public class MainPage {
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
-    public void clickOrderButtonHeader(){
-        driver.findElement(orderButtonHeader).click();
-    }
 }

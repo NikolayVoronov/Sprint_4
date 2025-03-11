@@ -2,6 +2,7 @@ package tests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.runner.RunWith;
@@ -17,8 +18,9 @@ public class CreateOrder {
     private final String metroText;
     private final String phoneText;
     private final String dateOrderText;
+    private final By locator;
     private static WebDriver driver;
-    public CreateOrder(String firstNameText, String surnameText, String adressText,
+    public CreateOrder(By locator, String firstNameText, String surnameText, String adressText,
                        String metroText, String phoneText, String dateOrderText) {
         this.firstNameText = firstNameText;
         this.surnameText = surnameText;
@@ -26,13 +28,15 @@ public class CreateOrder {
         this.metroText = metroText;
         this.phoneText = phoneText;
         this.dateOrderText = dateOrderText;
+        this.locator = locator;
     }
     @Parameterized.Parameters
     public static Object[][] getTextData() {
+        MainPage objMainpage = new MainPage(driver);
         return new Object[][] {
-                {"Жан жак", "Тестировалль", "Вымышленный адрес",
+                {objMainpage.orderButtonHeader, "Жан жак", "Тестировалль", "Вымышленный адрес",
                         "Аэропорт", "+79999999999", "20.03.2025"},
-                {"Агент", "Смит", "г. Зеон, ул. Машинная, д.5, корп.7",
+                {objMainpage.orderButtonBody, "Агент", "Смит", "г. Зеон, ул. Машинная, д.5, корп.7",
                         "Автозаводская", "+77776665544", "01.05.2025"},
         };
     }
@@ -46,14 +50,14 @@ public class CreateOrder {
     @Test
     public void checkCreateOrder() {
         MainPage objMainpage = new MainPage(driver);
-        objMainpage.clickOrderButtonHeader();
+        objMainpage.scrollElement(locator);
+        objMainpage.clickElement(locator);
         OrderPage objOrderPage = new OrderPage(driver);
         objOrderPage.stepOneOrder(firstNameText, surnameText, adressText, metroText, phoneText);
         objOrderPage.stepTwoOrder(dateOrderText);
         objOrderPage.clickYesButton();
         objOrderPage.findSuccessField();
     }
-
 
     @After
     public void teardown() {
